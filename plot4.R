@@ -19,27 +19,35 @@ get_data <- function(file){
 
 # plots
 plot4_1 <- function(){
-        plot(x=power.data$Time ,y=power.data$Global_active_power, type="l", xlab="", ylab="Global Active Power")
-        axis(1, at=1:3, lab=c("Thu", "Fri", "Sat"))
+        plot(x=power.data$Time ,y=power.data$Global_active_power, type="l", xlab="", ylab="Global Active Power",xaxt="n")
+        axis(1, at=c(min(as.POSIXct(power.data$Time)), min(as.POSIXct(power.data$Time))+86400,
+                     min(as.POSIXct(power.data$Time))+2*86400),
+             labels=c("Thu", "Fri", "Sat"))
 }
 
 
 plot4_2 <- function(){
-        plot(x=power.data$Time ,y=power.data$Voltage, type="l", xlab="datetime", ylab="Voltage")
-        axis(1, at=1:3, lab=c("Thu", "Fri", "Sat"))
+        plot(x=power.data$Time ,y=power.data$Voltage, type="l", xlab="datetime", ylab="Voltage",xaxt="n")
+        axis(1, at=c(min(as.POSIXct(power.data$Time)), min(as.POSIXct(power.data$Time))+86400,
+                     min(as.POSIXct(power.data$Time))+2*86400),
+             labels=c("Thu", "Fri", "Sat"))
 }
 
 plot4_3 <- function(){
-        plot(x=power.data$Time ,y=power.data$Sub_metering_1, type="l", xlab="", ylab="Energy sub metering")
+        plot(x=power.data$Time ,y=power.data$Sub_metering_1, type="l", xlab="", ylab="Energy sub metering",xaxt="n")
         lines(x=power.data$Time ,y=power.data$Sub_metering_2, col="red")
         lines(x=power.data$Time ,y=power.data$Sub_metering_3, col="blue")
         legend(x="topright", legend=c("Sub_metering_1", "Sub_metering_2","Sub_metering_3"), box.lwd = 0, lwd=c(2,2,2),col=c("black", "red", "blue"))
-        axis(1, at=1:3, lab=c("Thu", "Fri", "Sat"))
+        axis(1, at=c(min(as.POSIXct(power.data$Time)), min(as.POSIXct(power.data$Time))+86400,
+                     min(as.POSIXct(power.data$Time))+2*86400),
+             labels=c("Thu", "Fri", "Sat"))
 }
 
 plot4_4 <- function(){
-        plot(x=power.data$Time ,y=power.data$Global_reactive_power, type="l", xlab="datetime", ylab="Global_reactive_power")
-        axis(1, at=1:3, lab=c("Thu", "Fri", "Sat"))
+        plot(x=power.data$Time ,y=power.data$Global_reactive_power, type="l", xlab="datetime", ylab="Global_reactive_power",xaxt="n")
+        axis(1, at=c(min(as.POSIXct(power.data$Time)), min(as.POSIXct(power.data$Time))+86400,
+                     min(as.POSIXct(power.data$Time))+2*86400),
+             labels=c("Thu", "Fri", "Sat"))
 }
 
 # For generating plot4.png
@@ -47,10 +55,8 @@ file <- "./household_power_consumption.txt"
 power.data <- get_data(file)  # force reload data
 
 if ( ! is.null(power.data)){
-        power.data$weekday <- weekdays(power.data$Date)
         png(filename="plot4.png", width=480, height=480)
         par(mfrow=c(2,2))
-        Sys.setlocale("LC_TIME", "en_US.UTF-8")
         plot4_1()
         plot4_2()
         plot4_3()

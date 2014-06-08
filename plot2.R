@@ -22,11 +22,10 @@ file <- "./household_power_consumption.txt"
 power.data <- get_data(file)  # force reload data
 
 if ( ! is.null(power.data)){
-        power.data$weekday <- weekdays(power.data$Date)
         png(filename="plot2.png", width=480, height=480)
-        Sys.setlocale("LC_TIME", "en_US.UTF-8")
-        plot(x=power.data$Time ,y=power.data$Global_active_power, type="l", xlab="", ylab="Global Active Power (kilowatts)")
-        axis(1, at=1:3, lab=c("Thu", "Fri", "Sat"))
+        plot(x=power.data$Time ,y=power.data$Global_active_power, type="l", xlab="", ylab="Global Active Power (kilowatts)",xaxt="n")
+        axis(1, at=c(min(as.POSIXct(power.data$Time)), min(as.POSIXct(power.data$Time))+86400,
+                     min(as.POSIXct(power.data$Time))+2*86400),labels=c("Thu", "Fri", "Sat"))
         dev.off() 
 } else {
         print("power.data is not generated correctly!")
